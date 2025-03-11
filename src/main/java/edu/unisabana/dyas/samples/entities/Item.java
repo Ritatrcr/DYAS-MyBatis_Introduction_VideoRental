@@ -6,24 +6,23 @@
 package edu.unisabana.dyas.samples.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  *
  * @author cesarvefe
  */
 public class Item implements Serializable{
-    private TipoItem tipo;
+    private TipoItem tipoItem;
     private int id;
     private String nombre;
     private String descripcion;
-    private Date fechaLanzamiento;
+    private String fechaLanzamiento;
     private long tarifaxDia;
     private String formatoRenta;
     private String genero;
 
-    public Item(TipoItem tipo, int id, String nombre, String descripcion, Date fechaLanzamiento, long tarifaxDia, String formatoRenta, String genero) {
-        this.tipo = tipo;
+    public Item(TipoItem tipoItem, int id, String nombre, String descripcion, String fechaLanzamiento, long tarifaxDia, String formatoRenta, String genero) {
+        this.tipoItem = tipoItem;
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -40,11 +39,11 @@ public class Item implements Serializable{
     
     
     public TipoItem getTipo() {
-        return tipo;
+        return tipoItem;
     }
 
-    public void setTipo(TipoItem tipo) {
-        this.tipo = tipo;
+    public void setTipo(TipoItem tipItemo) {
+        this.tipoItem = tipoItem;
     }
 
     public int getId() {
@@ -73,11 +72,11 @@ public class Item implements Serializable{
         this.descripcion = descrpcion;
     }
 
-    public Date getFechaLanzamiento() {
+    public String getfechaLanzamiento() {
         return fechaLanzamiento;
     }
 
-    public void setFechaLanzamiento(Date fechaLanzamiento) {
+    public void setfechaLanzamiento(String fechaLanzamiento) {
         this.fechaLanzamiento = fechaLanzamiento;
     }
 
@@ -107,7 +106,7 @@ public class Item implements Serializable{
 
     @Override
     public String toString() {
-        return "Item{" + "tipo=" + tipo + ", id=" + id + ", nombre=" + nombre + ", tarifaxDia=" + tarifaxDia + '}';
+        return "Item{" + "tipo=" + tipoItem + ", id=" + id + ", nombre=" + nombre + ", tarifaxDia=" + tarifaxDia + '}';
     }
 
 

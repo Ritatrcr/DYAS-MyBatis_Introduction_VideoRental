@@ -2,10 +2,31 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.TipoItemMapper">
 
-    
+    <!-- Mapeo de TipoItem -->
+    <resultMap id="TipoItemResult" type="edu.unisabana.dyas.samples.entities.TipoItem">
+        <id property="id" column="ID_Tipo_Item"/>
+        <result property="descripcion" column="Descripcion_Tipo_Item"/>
+    </resultMap>
 
-                
+    <!-- Consultar un TipoItem por ID -->
+    <select id="getTipoItem" parameterType="int" resultMap="TipoItemResult">
+        SELECT id AS 'ID_Tipo_Item', descripcion AS 'Descripcion_Tipo_Item'
+        FROM VI_TIPOITEM
+        WHERE id = #{id};
+    </select>
+
+    <!-- Consultar todos los TipoItem (CORREGIDO EL ID PARA COINCIDIR CON EL MÉTODO EN JAVA) -->
+    <select id="getTiposItems" resultMap="TipoItemResult">
+        SELECT id AS 'ID_Tipo_Item', descripcion AS 'Descripcion_Tipo_Item'
+        FROM VI_TIPOITEM;
+    </select>
+
+    <!-- Insertar un TipoItem -->
+    <insert id="addTipoItem">
+        INSERT INTO VI_TIPOITEM (descripcion) VALUES (#{des});
+    </insert>
+
 </mapper>

@@ -17,14 +17,14 @@ public class ItemRentado implements Serializable {
     private int id;
 
     private Item item;
-    private Date fechainiciorenta;
-    private Date fechafinrenta;
+    private String fechaInicioRenta;
+    private String fechaFinRenta;
 
-    public ItemRentado(int id, Item item, Date fechainiciorenta, Date fechafinrenta) {
+    public ItemRentado(int id, Item item, String fechaInicioRenta, String fechaFinRenta) {
         this.id = id;
         this.item = item;
-        this.fechainiciorenta = fechainiciorenta;
-        this.fechafinrenta = fechafinrenta;
+        this.fechaInicioRenta = fechaInicioRenta;
+        this.fechaFinRenta = fechaFinRenta;
     }
 
     public ItemRentado() {
@@ -46,25 +46,25 @@ public class ItemRentado implements Serializable {
         this.item = item;
     }
 
-    public Date getFechainiciorenta() {
-        return fechainiciorenta;
+    public String getfechaInicioRenta() {
+        return fechaInicioRenta;
     }
 
-    public void setFechainiciorenta(Date fechainiciorenta) {
-        this.fechainiciorenta = fechainiciorenta;
+    public void setfechaInicioRenta(String fechaInicioRenta) {
+        this.fechaInicioRenta = fechaInicioRenta;
     }
 
-    public Date getFechafinrenta() {
-        return fechafinrenta;
+    public String getfechaFinRenta() {
+        return fechaFinRenta;
     }
 
-    public void setFechafinrenta(Date fechafinrenta) {
-        this.fechafinrenta = fechafinrenta;
+    public void setfechaFinRenta(String fechaFinRenta) {
+        this.fechaFinRenta = fechaFinRenta;
     }
 
     @Override
     public String toString() {
-        return "ItemRentado{" + "id=" + id + ", item=" + item + ", fechainiciorenta=" + fechainiciorenta + ", fechafinrenta=" + fechafinrenta + '}';
+        return "ItemRentado{" + "id=" + id + ", item=" + item + ", fechaInicioRenta=" + fechaInicioRenta + ", fechaFinRenta=" + fechaFinRenta + '}';
     }
 
     

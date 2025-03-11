@@ -35,6 +35,19 @@
             <version>3.4.5</version> <!-- La versión puede variar -->
         </dependency>
 
+         <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+        <version>3.5.7</version>
+    </dependency>
+
+    <!-- Dependencia del driver de SQLite -->
+    <dependency>
+        <groupId>org.xerial</groupId>
+        <artifactId>sqlite-jdbc</artifactId>
+        <version>3.36.0.3</version>
+    </dependency>
+
     </dependencies>
     
     <build>
@@ -49,6 +62,11 @@
                         <artifactId>h2</artifactId>
                         <version>1.4.184</version>
                     </dependency>
+                    <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.36.0.3</version>
+        </dependency>
                 </dependencies>
                 <configuration>
                     <driver>org.h2.Driver</driver>                    

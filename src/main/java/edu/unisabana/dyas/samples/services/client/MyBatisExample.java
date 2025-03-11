@@ -26,6 +26,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ClienteMapper;
+import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemMapper;
+import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.TipoItemMapper;
+
 /**
  *
  * @author cesarvefe
@@ -66,6 +70,30 @@ public class MyBatisExample {
         //Crear el mapper y usarlo: 
         //ClienteMapper cm=sqlss.getMapper(ClienteMapper.class)
         //cm...
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Consultando clientes...");
+        System.out.println("");
+        ClienteMapper cm=sqlss.getMapper(ClienteMapper.class);
+        System.out.println(cm.consultarClientes());
+
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Consultando ItemsMapper");
+        System.out.println("");
+        ItemMapper cmItemMapper=sqlss.getMapper(ItemMapper.class);
+        System.out.println(cmItemMapper.consultarItems());
+
+       
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Consultando TipoItemsMapper");
+        System.out.println("");
+        TipoItemMapper cmTipoItemMapper = sqlss.getMapper(TipoItemMapper.class);
+        System.out.println(cmTipoItemMapper.getTiposItems());
+
         
         
         
