@@ -21,6 +21,7 @@ package edu.unisabana.dyas.samples.services.client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -28,6 +29,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ClienteMapper;
 import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemMapper;
+import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemRentadoMapper;
 import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.TipoItemMapper;
 
 /**
@@ -73,11 +75,27 @@ public class MyBatisExample {
 
         System.out.println("");
         System.out.println("");
-        System.out.println("Consultando clientes...");
+        System.out.println("Consultando cliente por id...");
         System.out.println("");
         ClienteMapper cm=sqlss.getMapper(ClienteMapper.class);
-        System.out.println(cm.consultarClientes());
+        System.out.println(cm.consultarCliente(123456789));
 
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Insertando items rentados..");
+        System.out.println("");
+        ItemRentadoMapper irm = sqlss.getMapper(ItemRentadoMapper.class);
+        irm.insertarItemRentado(123456789, 1, new String(), new String());
+
+
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Consultando cliente por id...");
+        System.out.println("");
+        ClienteMapper cm1=sqlss.getMapper(ClienteMapper.class);
+        System.out.println(cm1.consultarClientes());
 
         System.out.println("");
         System.out.println("");
@@ -85,6 +103,8 @@ public class MyBatisExample {
         System.out.println("");
         ItemMapper cmItemMapper=sqlss.getMapper(ItemMapper.class);
         System.out.println(cmItemMapper.consultarItems());
+
+
 
        
         System.out.println("");

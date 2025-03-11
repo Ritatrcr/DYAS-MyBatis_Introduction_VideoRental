@@ -5,30 +5,57 @@
   
 <mapper namespace="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ClienteMapper">
 
-    <select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
+<select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
         SELECT
-            c.nombre AS 'Nombre_Cliente',
-            c.documento,
-            c.telefono,
-            c.direccion,
-            c.email,
-            c.vetado,
-            ir.ITEMS_id,
-            ir.fechainiciorenta,
-            ir.fechafinrenta,
-            i.id AS 'ID_Item',
-            i.nombre AS 'Nombre_Item',
-            i.descripcion AS 'Descripcion_Item',
-            i.fechalanzamiento,
-            i.tarifaxdia,
-            i.formatorenta,
-            i.genero,        
-            ti.id AS 'ID_Tipo_Item',
-            ti.descripcion AS 'Descripcion_Tipo_Item'
-        FROM VI_CLIENTES AS c 
-        LEFT JOIN VI_ITEMRENTADO AS ir ON c.documento = ir.CLIENTES_documento 
-        LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id = i.id 
-        LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id;
+        c.nombre AS 'Nombre_Cliente',
+        c.documento,
+        c.telefono,
+        c.direccion,
+        c.email,
+        c.vetado,
+        ir.ITEMS_id,
+        ir.fechainiciorenta,
+        ir.fechafinrenta,
+        i.id AS 'ID_Item',
+        i.nombre AS 'Nombre_Item',
+        i.descripcion AS 'Descripcion_Item',
+        i.fechalanzamiento,
+        i.tarifaxdia,
+        i.formatorenta,
+        i.genero,        
+        ti.id AS 'ID_Tipo_Item',
+        ti.descripcion AS 'Descripcion_Tipo_Item'
+    FROM VI_CLIENTES AS c 
+    LEFT JOIN VI_ITEMRENTADO AS ir ON c.documento = ir.CLIENTES_documento 
+    LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id = i.id 
+    LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id
+    </select>
+
+    <select parameterType="map" id="consultarCliente" resultMap="ClienteResult">
+        SELECT
+        c.nombre AS 'Nombre_Cliente',
+        c.documento,
+        c.telefono,
+        c.direccion,
+        c.email,
+        c.vetado,
+        ir.ITEMS_id,
+        ir.fechainiciorenta,
+        ir.fechafinrenta,
+        i.id AS 'ID_Item',
+        i.nombre AS 'Nombre_Item',
+        i.descripcion AS 'Descripcion_Item',
+        i.fechalanzamiento,
+        i.tarifaxdia,
+        i.formatorenta,
+        i.genero,        
+        ti.id AS 'ID_Tipo_Item',
+        ti.descripcion AS 'Descripcion_Tipo_Item'
+    FROM VI_CLIENTES AS c 
+    LEFT JOIN VI_ITEMRENTADO AS ir ON c.documento = ir.CLIENTES_documento 
+    LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id = i.id 
+    LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id
+    WHERE c.documento = #{idcli}
     </select>
 
     <resultMap type='Cliente' id='ClienteResult'>
@@ -42,5 +69,10 @@
         <!-- Relación Uno a Muchos con ItemRentado -->
         <collection property="itemsRentados" ofType="ItemRentado" 
             resultMap="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemRentadoMapper.ItemRentadoResult"/>
-        </resultMap>   
+        </resultMap>    
+        <insert id="agregarItemRentadoACliente" parameterType="map">
+    INSERT INTO VI_ITEMRENTADO (CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
+    VALUES (#{idcli}, #{idit}, #{fechainicio}, #{fechafin})
+</insert>
+
 </mapper>

@@ -6,18 +6,18 @@
 <mapper namespace="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemMapper">
 
     <!-- Mapeo de la entidad Item -->
-    <resultMap id="ItemResult" type="edu.unisabana.dyas.samples.entities.Item">
-        <id property="id" column="ID_Item"/>
-        <result property="nombre" column="Nombre_Item"/>
-        <result property="descripcion" column="Descripcion_Item"/>
-        <result property="fechaLanzamiento" column="fechalanzamiento"/>
-        <result property="tarifaxDia" column="tarifaxdia"/>
-        <result property="formatoRenta" column="formatorenta"/>
-        <result property="genero" column="genero"/>
-        
-        <!-- Relación con TipoItem -->
-        <association property="tipoItem" javaType="edu.unisabana.dyas.samples.entities.TipoItem" resultMap="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.TipoItemMapper.TipoItemResult"/>
-    </resultMap>
+   <resultMap id="ItemResult" type="edu.unisabana.dyas.samples.entities.Item">
+    <id property="id" column="ID_Item"/>
+    <result property="nombre" column="Nombre_Item"/>
+    <result property="descripcion" column="Descripcion_Item"/>
+    <result property="fechaLanzamiento" column="fechalanzamiento"/>
+    <result property="tarifaxDia" column="tarifaxdia"/>
+    <result property="formatoRenta" column="formatorenta"/>
+    <result property="genero" column="genero"/>
+    <association property="tipoItem" javaType="edu.unisabana.dyas.samples.entities.TipoItem" 
+        resultMap="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.TipoItemMapper.TipoItemResult"/>
+</resultMap>
+
 
     <!-- Consultar un Item por ID -->
     <select id="consultarItem" parameterType="int" resultMap="ItemResult">
@@ -52,10 +52,13 @@
         LEFT JOIN VI_TIPOITEM ti ON i.TIPOITEM_id = ti.id;
     </select>
 
+    
+
+
     <!-- Insertar un Item -->
-    <insert id="insertarItem">
-        INSERT INTO VI_ITEMS (id, nombre, descripcion, fechalanzamiento, tarifaxdia, formatorenta, genero, TIPOITEM_id)
-        VALUES (#{id}, #{nombre}, #{descripcion}, #{fechaLanzamiento}, #{tarifaxDia}, #{formatoRenta}, #{genero}, #{tipoItem.id});
-    </insert>
+    <insert id="insertarItem" parameterType="map">
+    INSERT INTO VI_ITEMS (id, nombre, descripcion, fechalanzamiento, tarifaxdia, formatorenta, genero, TIPOITEM_id)
+    VALUES (#{item.id}, #{item.nombre}, #{item.descripcion}, #{item.fechaLanzamiento}, #{item.tarifaxDia}, #{item.formatoRenta}, #{item.genero}, #{item.tipoItem.id})
+</insert>
 
 </mapper>

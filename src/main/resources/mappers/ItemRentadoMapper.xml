@@ -27,14 +27,45 @@
         LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id;
     </select>
 
-    <!-- Mapeo del ResultMap para ItemRentado -->
+    <select id="consultarItemRentado" parameterType="int" resultMap="ItemRentadoResult">
+    SELECT 
+        ir.id AS 'ID_ItemRentado',
+        ir.CLIENTES_documento,
+        ir.ITEMS_id,
+        ir.fechainiciorenta,
+        ir.fechafinrenta,
+        i.id AS 'ID_Item',
+        i.nombre AS 'Nombre_Item',
+        i.descripcion AS 'Descripcion_Item',
+        i.fechalanzamiento,
+        i.tarifaxdia,
+        i.formatorenta,
+        i.genero,        
+        ti.id AS 'ID_Tipo_Item',
+        ti.descripcion AS 'Descripcion_Tipo_Item'
+    FROM VI_ITEMRENTADO AS ir 
+    LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id = i.id 
+    LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id
+    WHERE ir.id = #{id}
+</select>
+
+
+
+    <insert id="insertarItemRentado" parameterType="map">
+        INSERT INTO VI_ITEMRENTADO (CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
+        VALUES (#{idcli}, #{idit}, #{fechainicio}, #{fechafin})
+    </insert>
+
+
+    
+
     <resultMap id="ItemRentadoResult" type="edu.unisabana.dyas.samples.entities.ItemRentado">
         <id property="id" column="ID_ItemRentado"/>
         <result property="fechaInicioRenta" column="fechainiciorenta"/>
         <result property="fechaFinRenta" column="fechafinrenta"/>
-        
-        <!-- Relación con Item -->
-        <association property="item" javaType="edu.unisabana.dyas.samples.entities.Item" resultMap="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult"/>
+        <!-- Mapea la relación con Item, reutilizando el resultMap definido en ItemMapper -->
+        <association property="item" javaType="edu.unisabana.dyas.samples.entities.Item" 
+                     resultMap="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult"/>
     </resultMap>
 
 </mapper>
