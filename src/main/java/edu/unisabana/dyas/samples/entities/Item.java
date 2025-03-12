@@ -6,13 +6,14 @@
 package edu.unisabana.dyas.samples.entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  *
  * @author cesarvefe
  */
 public class Item implements Serializable{
-    private TipoItem tipoItem;
+    private TipoItem tipo;
     private int id;
     private String nombre;
     private String descripcion;
@@ -21,8 +22,8 @@ public class Item implements Serializable{
     private String formatoRenta;
     private String genero;
 
-    public Item(TipoItem tipoItem, int id, String nombre, String descripcion, String fechaLanzamiento, long tarifaxDia, String formatoRenta, String genero) {
-        this.tipoItem = tipoItem;
+    public Item(TipoItem tipo, int id, String nombre, String descripcion, String fechaLanzamiento, long tarifaxDia, String formatoRenta, String genero) {
+        this.tipo = tipo;
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -38,12 +39,12 @@ public class Item implements Serializable{
     
     
     
-    public TipoItem getTipo() {
-        return tipoItem;
+    public TipoItem gettipoItem() {
+        return tipo;
     }
 
-    public void setTipo(TipoItem tipItemo) {
-        this.tipoItem = tipoItem;
+    public void settipoItem(TipoItem tipo) {
+        this.tipo = tipo;
     }
 
     public int getId() {
@@ -72,19 +73,19 @@ public class Item implements Serializable{
         this.descripcion = descrpcion;
     }
 
-    public String getfechaLanzamiento() {
+    public String getFechaLanzamiento() {
         return fechaLanzamiento;
     }
 
-    public void setfechaLanzamiento(String fechaLanzamiento) {
+    public void setFechaLanzamiento(String fechaLanzamiento) {
         this.fechaLanzamiento = fechaLanzamiento;
     }
 
-    public long getTarifaxDia() {
+    public long gettarifaDia() {
         return tarifaxDia;
     }
 
-    public void setTarifaxDia(long tarifaxDia) {
+    public void settarifaDia(long tarifaxDia) {
         this.tarifaxDia = tarifaxDia;
     }
 
@@ -106,7 +107,7 @@ public class Item implements Serializable{
 
     @Override
     public String toString() {
-        return "Item{" + "tipo=" + tipoItem + ", id=" + id + ", nombre=" + nombre + ", tarifaxDia=" + tarifaxDia + '}';
+        return "Item{" + "tipo=" + tipo + ", id=" + id + ", nombre=" + nombre + ", tarifaxDia=" + tarifaxDia + '}';
     }
 
 

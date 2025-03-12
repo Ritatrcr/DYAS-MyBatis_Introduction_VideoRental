@@ -1,46 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ClienteMapper">
 
-    <select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
-        SELECT
-            c.nombre AS 'Nombre_Cliente',
-            c.documento,
-            c.telefono,
-            c.direccion,
-            c.email,
-            c.vetado,
-            ir.ITEMS_id,
-            ir.fechainiciorenta,
-            ir.fechafinrenta,
-            i.id AS 'ID_Item',
-            i.nombre AS 'Nombre_Item',
-            i.descripcion AS 'Descripcion_Item',
-            i.fechalanzamiento,
-            i.tarifaxdia,
-            i.formatorenta,
-            i.genero,        
-            ti.id AS 'ID_Tipo_Item',
-            ti.descripcion AS 'Descripcion_Tipo_Item'
-        FROM VI_CLIENTES AS c 
-        LEFT JOIN VI_ITEMRENTADO AS ir ON c.documento = ir.CLIENTES_documento 
-        LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id = i.id 
-        LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id;
+
+    <!-- Consultar un cliente por ID -->
+    <select id="consultarCliente" parameterType="map" resultMap="ClienteResult">
+        SELECT DISTINCT
+            c.documento AS c_documento,
+            c.nombre AS c_nombre,
+            c.telefono AS c_telefono,
+            c.direccion AS c_direccion,
+            c.email AS c_email,
+            c.vetado AS c_vetado
+        FROM VI_CLIENTES c
+        WHERE c.documento = #{idcli}
     </select>
 
-    <resultMap type='Cliente' id='ClienteResult'>
-        <id property='documento' column='documento'/>
-        <result property='nombre' column='Nombre_Cliente'/>
-        <result property='telefono' column='telefono'/>
-        <result property='direccion' column='direccion'/>  
-        <result property="email" column="email"/>      
-        <result property="vetado" column="vetado"/>
-        
-        <!-- Relación Uno a Muchos con ItemRentado -->
-        <collection property="itemsRentados" ofType="ItemRentado" 
-            resultMap="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemRentadoMapper.ItemRentadoResult"/>
-        </resultMap>   
+
+
+    <!-- Consultar TODOS los clientes (sin ítems rentados) -->
+    <select id="consultarClientes" parameterType="map" resultMap="ClienteResult">
+        SELECT DISTINCT
+            c.documento AS c_documento,
+            c.nombre AS c_nombre,
+            c.telefono AS c_telefono,
+            c.direccion AS c_direccion,
+            c.email AS c_email,
+            c.vetado AS c_vetado
+        FROM VI_CLIENTES c
+    </select>
+
+    
+
+    <!-- Mapeo de Cliente -->
+    <resultMap id="ClienteResult" type="Cliente">
+        <id property="documento" column="c_documento"/>
+        <result property="nombre" column="c_nombre"/>
+        <result property="telefono" column="c_telefono"/>
+        <result property="direccion" column="c_direccion"/>
+        <result property="email" column="c_email"/>
+        <result property="vetado" column="c_vetado"/>
+
+        <!-- Cargar items rentados del cliente -->
+        <collection property="rentados" ofType="ItemRentado"
+                    select="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemRentadoMapper.consultarItemsRentadosPorCliente"
+                    column="c_documento"/>
+    </resultMap>
+
 </mapper>

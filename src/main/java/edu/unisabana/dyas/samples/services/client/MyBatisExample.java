@@ -21,14 +21,18 @@ package edu.unisabana.dyas.samples.services.client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
+
+import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ClienteMapper;
+import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemMapper;
+import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemRentadoMapper;
+import edu.unisabana.dyas.samples.entities.Cliente;
+import edu.unisabana.dyas.samples.entities.Item;
+import edu.unisabana.dyas.samples.entities.TipoItem;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ClienteMapper;
-import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemMapper;
-import edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.TipoItemMapper;
 
 /**
  *
@@ -65,38 +69,85 @@ public class MyBatisExample {
         SqlSessionFactory sessionfact = getSqlSessionFactory();
 
         SqlSession sqlss = sessionfact.openSession();
-
-        
-        //Crear el mapper y usarlo: 
-        //ClienteMapper cm=sqlss.getMapper(ClienteMapper.class)
-        //cm...
-
-        System.out.println("");
-        System.out.println("");
-        System.out.println("Consultando clientes...");
-        System.out.println("");
         ClienteMapper cm=sqlss.getMapper(ClienteMapper.class);
-        System.out.println(cm.consultarClientes());
+        ItemRentadoMapper irm=sqlss.getMapper(ItemRentadoMapper.class);
+        ItemMapper im=sqlss.getMapper(ItemMapper.class);
 
 
         System.out.println("");
-        System.out.println("");
-        System.out.println("Consultando ItemsMapper");
-        System.out.println("");
-        ItemMapper cmItemMapper=sqlss.getMapper(ItemMapper.class);
-        System.out.println(cmItemMapper.consultarItems());
 
-       
-        System.out.println("");
-        System.out.println("");
-        System.out.println("Consultando TipoItemsMapper");
-        System.out.println("");
-        TipoItemMapper cmTipoItemMapper = sqlss.getMapper(TipoItemMapper.class);
-        System.out.println(cmTipoItemMapper.getTiposItems());
 
-        
-        
-        
+        System.out.println("______________________________________________________");
+
+
+        //Consultar todos los clientes
+        System.out.println("CONSULTANDO TODOS LOS CLIENTES");
+        List<Cliente> clientes = cm.consultarClientes();
+        for (Cliente cliente : clientes) {
+            System.out.println(cliente);
+            System.out.println("");
+        }
+
+        System.out.println("");
+
+        System.out.println("______________________________________________________");
+
+ 
+        // Insertar Item
+        System.out.println("INSERTANDO ITEM NUEVO EN LA BASE DE DATOS (Libro)");
+        Item nuevoItem = new Item(new TipoItem(1, "Libro"), 15, "El principito", "Fábula filosófica",
+                "1943-04-06", 3000, "Digital", "Ficción");
+        im.insertarItem(nuevoItem);
+
+       System.out.println("");
+
+       System.out.println("______________________________________________________");
+
+
+        // Agregar Item rentado a Cliente 
+        System.out.println("AGREGANDO ITEM 1 RENTADO A CLIENTE CON ID 987654321");
+        irm.agregarItemRentadoACliente(4,987654321, 1, "2024-03-08", "2024-03-15");
+ 
+        System.out.println("");
+ 
+
+        System.out.println("______________________________________________________");
+
+
+        //Consultar 1 cliente por ID
+        System.out.println("CONSULTANDO CLIENTE CON ID 987654321");
+        System.out.println(cm.consultarCliente(987654321));
+
+        System.out.println("");
+
+
+        System.out.println("______________________________________________________");
+
+        // Consultar item por ID
+        System.out.println("CONSULTANDO ITEM CON ID 1");
+        Item item = im.consultarItem(1);
+        System.out.println("Item consultado: " + item);
+
+        System.out.println("");
+
+        System.out.println("______________________________________________________");
+
+
+
+        // Consultando todos los items
+        System.out.println("CONSULTANDO TODOS LOS ITEMS");
+        List<Item> items = im.consultarItems();
+        for (Item it : items) {
+            System.out.println(it);
+        }
+
+        System.out.println("");
+
+
+      
+
+
+
         sqlss.commit();
         
         

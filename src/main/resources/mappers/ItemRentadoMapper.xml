@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemRentadoMapper">
 
-    <!-- Consulta de ItemRentado con información completa de Item y TipoItem -->
-    <select parameterType="map" id="consultarItemsRentados" resultMap="ItemRentadoResult">
-        SELECT 
-            ir.id AS 'ID_ItemRentado',
-            ir.CLIENTES_documento,
-            ir.ITEMS_id,
-            ir.fechainiciorenta,
-            ir.fechafinrenta,
-            i.id AS 'ID_Item',
-            i.nombre AS 'Nombre_Item',
-            i.descripcion AS 'Descripcion_Item',
-            i.fechalanzamiento,
-            i.tarifaxdia,
-            i.formatorenta,
-            i.genero,        
-            ti.id AS 'ID_Tipo_Item',
-            ti.descripcion AS 'Descripcion_Tipo_Item'
-        FROM VI_ITEMRENTADO AS ir 
-        LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id = i.id 
-        LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id;
+    
+    <!-- Consultar items rentados por un cliente -->
+    <select id="consultarItemsRentadosPorCliente" resultMap="ItemRentadoResult">
+        SELECT ir.id AS ir_id, 
+               strftime('%Y-%m-%d %H:%M:%S', ir.fechainiciorenta) AS ir_fechainiciorenta,
+               strftime('%Y-%m-%d %H:%M:%S', ir.fechafinrenta) AS ir_fechafinrenta,
+               i.id AS i_id
+        FROM VI_ITEMRENTADO ir
+        JOIN VI_ITEMS i ON ir.ITEMS_id = i.id
+        WHERE ir.CLIENTES_documento = #{clienteId}
     </select>
 
-    <!-- Mapeo del ResultMap para ItemRentado -->
-    <resultMap id="ItemRentadoResult" type="edu.unisabana.dyas.samples.entities.ItemRentado">
-        <id property="id" column="ID_ItemRentado"/>
-        <result property="fechaInicioRenta" column="fechainiciorenta"/>
-        <result property="fechaFinRenta" column="fechafinrenta"/>
-        
+    <!-- Agregar un nuevo ítem rentado a un cliente -->
+    <insert id="agregarItemRentadoACliente" parameterType="map">
+        INSERT INTO VI_ITEMRENTADO (id, CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
+        VALUES (#{id}, #{idcli}, #{iditem}, 
+                strftime('%Y-%m-%d', #{fechaInicio}), 
+                strftime('%Y-%m-%d', #{fechaFin}))
+    </insert>
+
+    
+
+
+    <!-- Mapeo de ItemRentado -->
+    <resultMap id="ItemRentadoResult" type="ItemRentado">
+        <id column="ir_id" property="id"/>
+        <result column="ir_fechainiciorenta" property="fechaInicioRenta"/>
+        <result column="ir_fechafinrenta" property="fechaFinRenta"/>
+
         <!-- Relación con Item -->
-        <association property="item" javaType="edu.unisabana.dyas.samples.entities.Item" resultMap="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult"/>
+        <association property="item" javaType="Item"
+                     select="edu.unisabana.dyas.sampleprj.dao.mybatis.mappers.ItemMapper.consultarItem"
+                     column="i_id"/>
     </resultMap>
 
 </mapper>
